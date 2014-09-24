@@ -1,0 +1,56 @@
+{
+  "name": "EloRating",
+  "version": "0.0.1",
+  "description": "Player rating system with mobile support",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "grunt",
+    "watch": "grunt watch",
+    "start": "npm run build && node build/server/Devinit.js",
+    "test": "grunt test --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/njjohansen/EloRating.git"
+  },
+  "engines": {
+    "node": ">= 0.10.20"
+  },
+  "keywords": [
+    "rating",
+    "game",
+    "html5",
+    "WebSockets"
+  ],
+  "author": "Jonas Johansen",
+  "contributors": [
+    {
+      "name": "Jonas Johansen",
+      "email": "jonasjohansen@gmail.com",
+      "url": "https://github.com/njjohansen"
+    }
+  ],
+  "license": "N/A",
+  "bugs": {
+    "url": "https://github.com/njjohansen/EloRating/issues"
+  },
+  "homepage": "https://github.com/njjohansen/EloRating",
+  "dependencies": {
+    "socket.io": "~0.9.16",
+    "express": "~3.4.8",
+    "node-static": ">= 0.5.9"
+  },
+  "devDependencies": {
+    "mocha": ">= 1.8.1",
+    "grunt": "~0.4.2",
+    "grunt-contrib-uglify": ">= 0.3.0",
+    "grunt-contrib-copy": ">=0.5.0",
+    "grunt-contrib-watch": "0.5.3",
+    "grunt-mocha-test": "~0.9.0",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-contrib-concat": "~0.3.0"
+  }
+}

@@ -13,29 +13,32 @@ var WebsocketServer = function(httpServer){
 		self.webSocketEvent.emit("RATINGUPDATE", state);
 	};
 
-	setInterval(function(){
-		_ratingRepo.readRatings(function(ratings){
-			var len = ratings.teams.length;
-			var i1 = Math.floor(Math.random()*len);
-			var i2 = Math.floor(Math.random()*len);			
-			var winner = 1+Math.round(Math.random());
-			var res = _elo.applyRating(ratings.teams[i1], ratings.teams[i2], winner);
-			_ratingRepo.updateRatings(ratings, function(){
-				if( winner == 1){
-					ratings.teams[i1].winner = true;
-					ratings.teams[i2].loser = true;
-					ratings.lastScore = res.RaN - res.Ra; 
-				}
-				else if( winner == 2)
-				{
-					ratings.teams[i1].loser = true;
-					ratings.teams[i2].winner = true;
-					ratings.lastScore = res.RbN - res.Rb;
-				}
-				broadcastUpdate(ratings);
+	var demo = function(){
+		setInterval(function(){
+			_ratingRepo.readRatings(function(ratings){
+				var len = ratings.teams.length;
+				var i1 = Math.floor(Math.random()*len);
+				var i2 = Math.floor(Math.random()*len);			
+				var winner = 1+Math.round(Math.random());
+				var res = _elo.applyRating(ratings.teams[i1], ratings.teams[i2], winner);
+				_ratingRepo.updateRatings(ratings, function(){
+					if( winner == 1){
+						ratings.teams[i1].winner = true;
+						ratings.teams[i2].loser = true;
+						ratings.lastScore = res.RaN - res.Ra; 
+					}
+					else if( winner == 2)
+					{
+						ratings.teams[i1].loser = true;
+						ratings.teams[i2].winner = true;
+						ratings.lastScore = res.RbN - res.Rb;
+					}
+					broadcastUpdate(ratings);
+				});
 			});
-		});
-	}, 4000);
+		}, 4000);
+	};
+	//demo();
 	
 	// contains all the connected client sockets
 	var clientSockets = {}

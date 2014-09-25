@@ -9,9 +9,13 @@ function WebsocketService($rootScope){
 		self.webSocket
 			.on("JOINED", function(player){
 				$rootScope.broadcastEvent('JOINED', player);
-			})			
+			})
 			.on("EVENT", function(data){
 				logDebug("Recv data from server: {0}".format(data));
+			})
+			.on("RATINGUPDATE", function(data){
+				logDebug("Recv data from server: {0}".format(data));
+				$rootScope.broadcastEvent('RATINGUPDATE', data);
 			});
 		logDebug("Connected to: {0}".format(connectionUrl));
 	};

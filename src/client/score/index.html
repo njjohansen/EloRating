@@ -6,9 +6,7 @@
 		
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
 		<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-		<script type="text/javascript" src="vendor/google.fastbutton.js"></script>	
-		<script type="text/javascript" src="vendor/jquery.google.fastbutton.js"></script>
+		<script type="text/javascript" src="//event.netcompany.com:1337/socket.io/socket.io.js"></script>
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.js"></script>
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-cookies.js"></script>
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-route.js"></script>
@@ -17,10 +15,21 @@
 		<!--<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.js"></script>-->
 		<link rel="icon" type="image/png" href="img/favicon.png">
 
-		<link rel="stylesheet" type="text/css" href="css/screenStyle.css" />
+		<link rel="stylesheet" type="text/css" href="screenStyle.css" />
+		<script type="text/javascript" src="js/Common.js"></script>
+		<script type="text/javascript" src="js/WebsocketService.js"></script>
+		<script type="text/javascript" src="js/ScreenApplication.js"></script>
+		<script type="text/javascript" src="js/ScreenController.js"></script>
+		<script type="text/javascript" src="js/ScreenModule.js"></script>
+		<script type="text/javascript" src="js/IoCModule.js"></script>
 	</head>
 	<body ng-controller="ScreenController">
-		<script type="text/javascript" src="EloRating.min.js"></script>
-		Hej verden!
+		<div id='header'></div>
+		<div id='container'>
+			<div class='team' ng-repeat="team in scoreboard.teams">
+				{{ team.name }}: {{ team.rating }}
+			</div>
+		</div>
+		<div id='footer'></div>
 	</body>
 </html>

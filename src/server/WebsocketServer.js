@@ -119,4 +119,4 @@ var WebsocketServer = function(httpServer){
 
 module.exports = WebsocketServer;
 
-{team1: "team1name", team2: "team2name", winner: }
+//{team1: "team1name", team2: "team2name", winner: }

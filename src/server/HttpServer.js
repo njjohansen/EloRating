@@ -33,12 +33,13 @@ var HttpServer = function(){
 					var host = request.headers.host.split(':');
 					response.writeHead(200, {
 						'Content-Type': 'application/x-javascript',
-						'Access-Control-Allow-Origin', "http://"+host[0]
+						'Access-Control-Allow-Origin': "http://"+host[0]
 					});
+					response.setHeader('Access-Control-Allow-Origin', "http://"+host[0]);
 					var jsonString = JSON.stringify({
 						wsPort: host[1],
 						wsUrl: 'http://'+host[0]
-					})
+					});
 					response.write(jsonString);
 					response.end();
 				}
@@ -50,7 +51,7 @@ var HttpServer = function(){
 				}
 				else{
 					// ----- Static files -----
-					file.serve(request, response)
+					file.serve(request, response);
 				}
 			}).resume();
 		});

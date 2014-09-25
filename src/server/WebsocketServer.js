@@ -24,13 +24,13 @@ var WebsocketServer = function(httpServer){
 				if( winner == 1){
 					ratings.teams[i1].winner = true;
 					ratings.teams[i2].loser = true;
-					ratings.lastScore = res.RaN - Ra; 
+					ratings.lastScore = res.RaN - res.Ra; 
 				}
 				else if( winner == 2)
 				{
 					ratings.teams[i1].loser = true;
 					ratings.teams[i2].winner = true;
-					ratings.lastScore = res.RbN - Rb;
+					ratings.lastScore = res.RbN - res.Rb;
 				}
 				broadcastUpdate(ratings);
 			});
@@ -108,13 +108,13 @@ var WebsocketServer = function(httpServer){
 					if( winner == 1){
 						team1Obj.winner = true;
 						team2Obj.loser = true;
-						ratings.lastScore = res.RaN - Ra; 
+						ratings.lastScore = res.RaN - res.Ra; 
 					}
 					else if( winner == 2)
 					{
 						team1Obj.loser = true;
 						team2Obj.winner = true;
-						ratings.lastScore = res.RbN - Rb; 
+						ratings.lastScore = res.RbN - res.Rb; 
 					}
 					
 					// inform subscribers

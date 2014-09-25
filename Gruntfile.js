@@ -10,7 +10,7 @@ module.exports = function(grunt){
 					{expand: true, cwd: 'src/server/', src: ['**'], dest: 'build/server/'}, // makes all src relative to cwd
 					{expand: true, cwd: 'src/test/', src: ['**'], dest: 'build/test/'}, // makes all src relative to cwd
 					// copy  client files to build directory
-					{expand: true, cwd: 'src/client/clientFiles/', src: ['**'], dest: 'build/client/'} // makes all src relative to cwd
+					// {expand: true, cwd: 'src/client/clientFiles/', src: ['**'], dest: 'build/client/'} // makes all src relative to cwd
 					// {expand: true, flatten: true, src: ['src/client/**'], dest: 'build/client', filter: 'isFile'} # flattens results to a single level	
 					// {src: ['path/**'], dest: 'dest/'} # includes files in path and its subdirs
 				]
@@ -55,7 +55,8 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-concat');
 
 	//Default task(s).
-	grunt.registerTask('default', ['copy', 'concat']);
+	grunt.registerTask('default', ['copy']);
+	//grunt.registerTask('default', ['copy', 'concat']);
 	//other tasks
 	grunt.registerTask('test', ['mochaTest']);
 	grunt.registerTask('jslint', ['jshint']);

@@ -46,8 +46,8 @@ var WebsocketServer = function(httpServer){
 				makeTeam("The tokens of fortune"),
 				makeTeam("Team Albani"),
 				makeTeam("Team FTW!"),
-				makeTeam("..."),
-				makeTeam("---")
+				makeTeam("Team arabiske nisser"),
+				makeTeam("Team pilsner")
 			]
 		};
 

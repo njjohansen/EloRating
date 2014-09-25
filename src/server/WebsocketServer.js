@@ -18,8 +18,18 @@ var WebsocketServer = function(httpServer){
 			var len = ratings.teams.length;
 			var i1 = Math.floor(Math.random()*len);
 			var i2 = Math.floor(Math.random()*len);			
-			_elo.applyRating(ratings.teams[i1], ratings.teams[i2], 1+Math.round(Math.random()));
+			var winner = 1+Math.round(Math.random());
+			_elo.applyRating(ratings.teams[i1], ratings.teams[i2], winner);
 			_ratingRepo.updateRatings(ratings, function(){
+				if( winner == 1){
+					ratings.teams[i1].winner = true;
+					ratings.teams[i2].loser = true;
+				}
+				else if( winner == 2)
+				{
+					ratings.teams[i1].loser = true;
+					ratings.teams[i2].winner = true;
+				}
 				broadcastUpdate(ratings);
 			});			
 		});

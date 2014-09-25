@@ -15,7 +15,13 @@ var WebsocketServer = function(httpServer){
 
 	setInterval(function(){
 		_ratingRepo.readRatings(function(ratings){
-			broadcastUpdate(ratings);
+			var len = ratings.teams.length;
+			var i1 = Math.floor(Math.random()*len);
+			var i2 = Math.floor(Math.random()*len);			
+			_elo.applyRating(ratings.teams[i1], ratings.teams[i2], 1+Math.round(Math.random()));
+			_ratingRepo.updateRatings(ratings, function(){
+				broadcastUpdate(ratings);
+			});			
 		});
 	}, 4000);
 	

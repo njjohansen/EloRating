@@ -61,9 +61,17 @@ var WebsocketServer = function(httpServer){
 			clientSocket.on("MATCHUP", function(input) {
 				console.log("MATCHUP recevied!");
 				console.log("Team1: " + input.team1 + " Team2: " + input.team2);
-				registerMatchUp(input.team1, input.team2, input.winner, function(ratings){
-					broadcastUpdate(ratings);					
-				});				
+				if( input.pw == "dlfj%/!F56jtsrelskj5"){
+					console.log("Registering matchup!!");
+					registerMatchUp(input.team1, input.team2, input.winner, function(ratings){
+						console.log("Broadcasting update!!");
+						broadcastUpdate(ratings);					
+					});
+				}
+				else
+				{
+					console.log("Wrong pw! :(");
+				}
 
 			});						
 			

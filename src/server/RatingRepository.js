@@ -28,7 +28,8 @@ var RatingRepository = function(tableName){
 	self.updateRatings = function(state, callback){
 		// redisMemory.sadd("games", gameState.gameDate.gameId)	# currently not nescesary
 		redisMemory.hset(tableName, "ratings", JSON.stringify(state), function(err, reply){
-			callback(gameState) if callback?
+			if( typeof callback !== "undefined" )
+				callback(state);
 		});
 	};
 		

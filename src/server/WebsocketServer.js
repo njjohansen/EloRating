@@ -1,50 +1,22 @@
 var socketIO = require('socket.io')
 var config = require('./config')
 var RatingRepository = require('./RatingRepository');
+var Elo = require('./Elo');
 
 var WebsocketServer = function(httpServer){
 	var self = this;
 	self.webSocket = null;
 	var _ratingRepo = new RatingRepository("set1");
+	var _elo = new Elo();
 
-	var broadcastUpdate = function(state) {
-		ratingState = {
-			teams: [
-				createTeam("Team 1337"),
-				createTeam("Team tosser"),
-				createTeam("The tokens of fortune"),
-				createTeam("Team Albani"),				
-				createTeam("Team FTW!"),
-				createTeam("Team arabiske nisser"),
-				createTeam("Team pilsner"),
-				createTeam("1Team Albani"),
-				createTeam("1Team FTW!"),
-				createTeam("1Team arabiske nisser"),
-				createTeam("1Team pilsner"),
-				createTeam("2Team Albani"),
-				createTeam("2Team FTW!"),
-				createTeam("2Team arabiske nisser"),
-				createTeam("2Team pilsner"),
-				createTeam("3Team Albani"),
-				createTeam("3Team FTW!"),
-				createTeam("3Team arabiske nisser"),
-				createTeam("3Team pilsner"),
-				createTeam("4Team Albani"),				
-				createTeam("4Team FTW!"),
-				createTeam("4Team arabiske nisser"),
-				createTeam("4Team pilsner"),
-				createTeam("5Team Albani"),
-				createTeam("5Team FTW!"),
-				createTeam("5Team arabiske nisser"),
-				createTeam("5Team pilsner")
-			]
-		};
-
-		self.webSocketEvent.emit("RATINGUPDATE", ratingState);
+	var broadcastUpdate = function(state) {		
+		self.webSocketEvent.emit("RATINGUPDATE", state);
 	};
 
 	setInterval(function(){
-		broadcastUpdate();
+		_ratingRepo.readRatings(function(ratings){
+			broadcastUpdate(ratings);
+		}
 	},4000);
 	
 	// contains all the connected client sockets
@@ -69,8 +41,8 @@ var WebsocketServer = function(httpServer){
 			});
 
 			clientSocket.on("MATCHUP", function(input) {
-				registerMatchUp(input.team1, input.team2, input.winner, function(){
-					broadcastUpdate();					
+				registerMatchUp(input.team1, input.team2, input.winner, function(ratings){
+					broadcastUpdate(ratings);					
 				});				
 
 			});						
@@ -79,17 +51,16 @@ var WebsocketServer = function(httpServer){
 				logDebug('WS connection ended');
 			});
 
-			broadcastUpdate();
+			_ratingRepo.readRatings(function(ratings){
+				broadcastUpdate(ratings);
+			}
 		});
 	}
 
 	var registerMatchUp = function(team1, team2, winner, callback){
 		try{
 			// load ratings
-			_ratingRepo.readRatings(function(ratings){
-				if( typeof ratings == "undefined" || ratings == null)
-					ratings = []; // initialize ratings
-								
+			_ratingRepo.readRatings(function(ratings){								
 				// fetch team or create if new
 				var team1Obj, team2Obj;
 				// fetch team1
@@ -111,12 +82,12 @@ var WebsocketServer = function(httpServer){
 					team2Obj = ratings[i];
 
 				// apply points
-
+				_elo.applyRating(team1Obj, team2Obj, winner);
 
 				// save ratings
-				_ratingRepo.updateRatings(ratings,function(){
+				_ratingRepo.updateRatings(ratings, function(){
 					// inform subscribers
-					callback();
+					callback(ratings);
 				});
 			});
 			

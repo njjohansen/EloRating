@@ -4,7 +4,16 @@ var Assert = require('assert');
 // the modules that should be tested
 var NeedsTesting = require('../NeedsTesting');
 var RatingRepository = require('../RatingRepository');
+var Elo = require('../Elo');
 
+var createTeam = function(name) {
+	return {
+		name: name,
+		rating: 1000,
+		wins: 0,
+		losses: 0
+	};
+};
 // name of the module that is to be tested
 describe("PoC test", function(){
 	var _moduleThatNeedsTesting = new NeedsTesting();
@@ -44,4 +53,58 @@ describe("PoC test", function(){
 			});
 		});
 	});	
+
+	it("should be possible to Elo", function(){		
+		var _elo = new Elo();
+		var t1 = {rating: 1000};
+		var t2 = {rating: 1000};
+		for( var i = 0; i < 100; i++){
+			_elo.applyRating(t1, t2, Math.round(Math.random()));
+			console.log("t1: " + t1.rating + " t2: " + t2.rating);
+		}
+		
+	});	
+
+	it("Lets create some teams", function(done){		
+		ratingState = {
+			teams: [
+				createTeam("Team 1337"),
+				createTeam("Team tosser"),
+				createTeam("The tokens of fortune"),
+				createTeam("Team Albani"),				
+				createTeam("Team FTW!"),
+				createTeam("Team arabiske nisser"),
+				createTeam("Team pilsner"),
+				createTeam("Redis Ftw"),
+				createTeam("1Team FTW!"),
+				createTeam("1Team arabiske nisser"),
+				createTeam("1Team pilsner"),
+				createTeam("2Team Albani"),
+				createTeam("2Team FTW!"),
+				createTeam("2Team arabiske nisser"),
+				createTeam("2Team pilsner"),
+				createTeam("3Team Albani"),
+				createTeam("3Team FTW!"),
+				createTeam("3Team arabiske nisser"),
+				createTeam("3Team pilsner"),
+				createTeam("4Team Albani"),				
+				createTeam("4Team FTW!"),
+				createTeam("4Team arabiske nisser"),
+				createTeam("4Team pilsner"),
+				createTeam("5Team Albani"),
+				createTeam("5Team FTW!"),
+				createTeam("5Team arabiske nisser"),
+				createTeam("5Team pilsner")
+			]
+		};
+		var repo = new RatingRepository("set1");
+		repo.updateRatings(ratingState, function(){
+			done();
+		});
+
+	});	
+
+
+
+
 });

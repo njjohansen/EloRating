@@ -20,6 +20,9 @@ var RatingRepository = function(tableName){
 				throw ex;
 			}
 			
+			if( typeof state == "undefined" || state == null)
+				state = []; // initialize ratings
+			
 			callback(state);
 		});
 		return self;

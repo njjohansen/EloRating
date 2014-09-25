@@ -12,6 +12,8 @@ var Elo = function(){
 
 		t1.rating = res.RaN;
 		t2.rating = res.RbN;
+
+		return res;
 	};
 
 	self.computeRating = function(Ra, Rb, NumGames, Sa, Sb){

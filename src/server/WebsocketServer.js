@@ -19,19 +19,21 @@ var WebsocketServer = function(httpServer){
 			var i1 = Math.floor(Math.random()*len);
 			var i2 = Math.floor(Math.random()*len);			
 			var winner = 1+Math.round(Math.random());
-			_elo.applyRating(ratings.teams[i1], ratings.teams[i2], winner);
+			var res = _elo.applyRating(ratings.teams[i1], ratings.teams[i2], winner);
 			_ratingRepo.updateRatings(ratings, function(){
 				if( winner == 1){
 					ratings.teams[i1].winner = true;
 					ratings.teams[i2].loser = true;
+					ratings.lastScore = res.RaN - Ra; 
 				}
 				else if( winner == 2)
 				{
 					ratings.teams[i1].loser = true;
 					ratings.teams[i2].winner = true;
+					ratings.lastScore = res.RbN - Rb;
 				}
 				broadcastUpdate(ratings);
-			});			
+			});
 		});
 	}, 4000);
 	
@@ -101,16 +103,18 @@ var WebsocketServer = function(httpServer){
 				_elo.applyRating(team1Obj, team2Obj, winner);
 
 				// save ratings
-				_ratingRepo.updateRatings(ratings, function(){
+				var res = _ratingRepo.updateRatings(ratings, function(){
 					// mark winner and loser
 					if( winner == 1){
 						team1Obj.winner = true;
 						team2Obj.loser = true;
+						ratings.lastScore = res.RaN - Ra; 
 					}
 					else if( winner == 2)
 					{
 						team1Obj.loser = true;
 						team2Obj.winner = true;
+						ratings.lastScore = res.RbN - Rb; 
 					}
 					
 					// inform subscribers

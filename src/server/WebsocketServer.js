@@ -4,6 +4,26 @@ var config = require('./config')
 var WebsocketServer = function(httpServer){
 	var self = this;
 	self.webSocket = null;
+
+	var broadcastBoardUpdate = function() {
+		ratingState = {
+			teams: [
+				makeTeam("Team 1337"),
+				makeTeam("Team tosser"),
+				makeTeam("The tokens of fortune"),
+				makeTeam("Team Albani"),
+				makeTeam("Team FTW!"),
+				makeTeam("Team arabiske nisser"),
+				makeTeam("Team pilsner")
+			]
+		};
+
+		self.webSocketEvent.emit("RATINGUPDATE", ratingState);
+	};
+
+	setInterval(function(){
+		broadcastBoardUpdate();
+	},4000);
 	
 	// contains all the connected client sockets
 	var clientSockets = {}
@@ -38,26 +58,12 @@ var WebsocketServer = function(httpServer){
 		});
 	}
 
-	var broadcastBoardUpdate = function() {
-		ratingState = {
-			teams: [
-				makeTeam("Team 1337"),
-				makeTeam("Team tosser"),
-				makeTeam("The tokens of fortune"),
-				makeTeam("Team Albani"),
-				makeTeam("Team FTW!"),
-				makeTeam("Team arabiske nisser"),
-				makeTeam("Team pilsner")
-			]
-		};
-
-		self.webSocketEvent.emit("RATINGUPDATE", ratingState);
-	};
-
 	var makeTeam = function(name) {
 		return {
 			name: name,
-			rating: 1000
+			rating: 1000,
+			wins: 0,
+			losses: 0
 		};
 	};
 

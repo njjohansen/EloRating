@@ -104,7 +104,23 @@ describe("PoC test", function(){
 
 	});	
 
+	it("Lets stir the points", function(done){	
+		var repo = new RatingRepository("set1");
+		repo.readRatings(function(ratings){
+			int len = ratings.teams.length;
 
+			for( var i = 0; i < 100; i++){
+				int i1 = Math.floor(Math.random()*len);
+				int i2 = Math.floor(Math.random()*len);
+				_elo.applyRating(ratings.teams[i1], ratings.teams[i2], 1+Math.round(Math.random()));
+			};
+
+			repo.updateRatings(ratings, function(){
+				done();
+			});
+
+		});
+	});
 
 
 });

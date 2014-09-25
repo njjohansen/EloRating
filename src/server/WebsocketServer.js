@@ -17,7 +17,7 @@ var WebsocketServer = function(httpServer){
 		_ratingRepo.readRatings(function(ratings){
 			broadcastUpdate(ratings);
 		});
-	},4000);
+	}, 4000);
 	
 	// contains all the connected client sockets
 	var clientSockets = {}
@@ -60,26 +60,26 @@ var WebsocketServer = function(httpServer){
 	var registerMatchUp = function(team1, team2, winner, callback){
 		try{
 			// load ratings
-			_ratingRepo.readRatings(function(ratings){								
+			_ratingRepo.readRatings(function(ratings){
 				// fetch team or create if new
 				var team1Obj, team2Obj;
 				// fetch team1
-				var i = ratings.indexOfProperty("name", team1);
+				var i = ratings.teams.indexOfProperty("name", team1);
 				if( i < 0){
 					team1Obj = createTeam(team1);
-					ratings.push(team1Obj);
+					ratings.teams.push(team1Obj);
 				}
 				else
-					team1Obj = ratings[i];
+					team1Obj = ratings.teams[i];
 				
 				// fetch team2
-				i = ratings.indexOfProperty("name", team2);
+				i = ratings.teams.indexOfProperty("name", team2);
 				if( i < 0){
 					team2Obj = createTeam(team2);
-					ratings.push(team2Obj);
+					ratings.teams.push(team2Obj);
 				}
 				else
-					team2Obj = ratings[i];
+					team2Obj = ratings.teams[i];
 
 				// apply points
 				_elo.applyRating(team1Obj, team2Obj, winner);

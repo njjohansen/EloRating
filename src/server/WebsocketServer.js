@@ -110,10 +110,10 @@ var WebsocketServer = function(httpServer){
 					team2Obj = ratings.teams[i];
 
 				// apply points
-				_elo.applyRating(team1Obj, team2Obj, winner);
+				var res = _elo.applyRating(team1Obj, team2Obj, winner);
 
 				// save ratings
-				var res = _ratingRepo.updateRatings(ratings, function(){
+				 _ratingRepo.updateRatings(ratings, function(){
 					// mark winner and loser
 					if( winner == 1){
 						team1Obj.winner = true;

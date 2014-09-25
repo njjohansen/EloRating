@@ -22,32 +22,15 @@ var WebsocketServer = function(httpServer){
 			//@webSocket.sockets.send('New WebSocket Connection (to all)')
 			//@webSocketEvent.send('New WebSocket Connection (to event subscribers)')
 			//clientSocket.send('Hi new client!')
-			
-			clientSocket.on("JOIN", function() {
-				var player = makePlayer(clientSocket.id);
-				addPlayer(player);
-			});
-			
-			clientSocket.on("LEAVE", function() {
-				if (hasJoined(clientSocket.id)) {
-					removePlayer(clientSocket.id);
-				}
+			clientSocket.on("EVENT", function(inputObj) {
+				clientSocket.emit("EVENT", inputObj)	
 			});
 
-			clientSocket.on('EVENT', function(event){
-				clientSocket.emit('EVENT', event);
-			});
-			
-			clientSocket.on('MOVE', function(velocity) {
-				var player = self.board.players[clientSocket.id];
-
-			});
+			clientSocket.on("MATCHUP", function(inputObj) {
+				broadcastBoardUpdate();				
+			});						
 			
 			clientSocket.on('disconnect', function(){
-				if (hasJoined(clientSocket.id)) {
-					removePlayer(clientSocket.id);
-				}
-				delete clientSockets[clientSocket.id];
 				logDebug('WS connection ended');
 			});
 
@@ -56,35 +39,26 @@ var WebsocketServer = function(httpServer){
 	}
 
 	var broadcastBoardUpdate = function() {
-		//for (var socketId in clientSockets) {
-		//	clientSockets[socketId].emit("BOARDUPDATE", self.board);
-		//}
-	};
-
-	var makePlayer = function(playerid) {
-		return {
-			id: playerid,
-			nickname: "_",
+		ratingState = {
+			teams: [
+				makeTeam("Team 1337"),
+				makeTeam("Team tosser"),
+				makeTeam("The tokens of fortune"),
+				makeTeam("Team Albani"),
+				makeTeam("Team FTW!"),
+				makeTeam("..."),
+				makeTeam("---")
+			]
 		};
-	}
 
-	var hasJoined = function(playerId) {
-		//return self.board.players[playerId] != null;
+		self.webSocketEvent.emit("RATINGUPDATE", ratingState);
 	};
 
-	var getPlayer = function(playerid) {
-		//return self.board.players[playerid];
-	};
-	
-	var addPlayer = function(player) {
-		//self.board.players[player.id] = player;
-		//broadcastBoardUpdate();
-	};
-	
-	var removePlayer = function(playerId) {
-		//delete self.board.players[playerId];
-		//broadcastBoardUpdate();
-		//logDebug("Removed player " + playerId);
+	var makeTeam = function(name) {
+		return {
+			name: name,
+			rating: 1000
+		};
 	};
 
 	return init();

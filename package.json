@@ -41,7 +41,8 @@
   "dependencies": {
     "socket.io": "~0.9.16",
     "express": "~3.4.8",
-    "node-static": ">= 0.5.9"
+    "node-static": ">= 0.5.9",
+    "redis": "~0.10.1"
   },
   "devDependencies": {
     "mocha": ">= 1.8.1",

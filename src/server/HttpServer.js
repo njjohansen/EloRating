@@ -21,6 +21,9 @@ var HttpServer = function(){
 	var createServer = function(){
 		var server = http.createServer( function(request, response){
 			var file = new nodeStatic.Server('build/client', {cache: false});
+			request.addListener('connect', function(){
+				response.setHeader('Access-Control-Allow-Origin', '*');
+			});
 			request.addListener('data', function(){
 				return self;
 			});
@@ -33,9 +36,8 @@ var HttpServer = function(){
 					var host = request.headers.host.split(':');
 					response.writeHead(200, {
 						'Content-Type': 'application/x-javascript',
-						'Access-Control-Allow-Origin': "http://"+host[0]
+						'Access-Control-Allow-Origin': '*'
 					});
-					response.setHeader('Access-Control-Allow-Origin', "http://"+host[0]);
 					var jsonString = JSON.stringify({
 						wsPort: host[1],
 						wsUrl: 'http://'+host[0]

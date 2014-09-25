@@ -141,3 +141,16 @@ formattedTime = function() {
 Number.prototype.clamp = function(min, max) {
   return Math.min(Math.max(this, min), max);
 };
+
+Array.prototype.indexOfProperty = function(propertyName, value) {
+  var i;
+  i = 0;
+  while (i < this.length) {
+    if (this[i][propertyName] === value) {
+      return i;
+    }
+    i++;
+  }
+  return -1;
+};
+

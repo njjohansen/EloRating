@@ -8,35 +8,32 @@ var RatingRepository = function(tableName){
 	//#	Logger.error("GameRepository, redisError: #{err}")
 	//#)
 	
-	self.read = function(callback)->
-		redisMemory.hget(tableName, "ratings", function(err, gameStateJson){
+	self.readRatings = function(callback){
+		redisMemory.hget(tableName, "ratings", function(err, stateJSON){
 			var state = null;
 			try{
-				state = JSON.parse(gameStateJson)
+				state = JSON.parse(stateJSON);
 			}
 			catch(ex)
 			{
-				Logger.error("failed to parse game data (#{ex}): '#{gameStateJson}'")
-				throw ex
+				//Logger.error("failed to parse game data (#{ex}): '#{gameStateJson}'");
+				throw ex;
 			}
 			
 			callback(state);
-		})
+		});
 		return self;
+	};	
 	
-	
-	self.update = function(state, callback){
-		if(!gameState.gameData || !gameState.gameData.gameId)
-			throw new Exception("gameId must be defined!")
-
+	self.updateRatings = function(state, callback){
 		// redisMemory.sadd("games", gameState.gameDate.gameId)	# currently not nescesary
-		redisMemory.hset(@tableName, gameState.gameData.gameId, JSON.stringify(gameState), (err, reply)->
+		redisMemory.hset(tableName, "ratings", JSON.stringify(state), function(err, reply){
 			callback(gameState) if callback?
-		)
-	}
+		});
+	};
 		
 		
 	return self;
-}
+};
 
-module.exports = RatingRepository
+module.exports = RatingRepository;

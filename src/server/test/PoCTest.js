@@ -3,6 +3,7 @@ require("../common");
 var Assert = require('assert');
 // the modules that should be tested
 var NeedsTesting = require('../NeedsTesting');
+var RatingRepository = require('../RatingRepository');
 
 // name of the module that is to be tested
 describe("PoC test", function(){
@@ -30,7 +31,17 @@ describe("PoC test", function(){
 		done(); // this can be used for asynchronous methods, or just left out as argument
 	});
 
-	it("should be possible to run one more unit test", function(){
+	it("should be possible to run one more unit test", function(){		
 		Assert.equal("1", 1); // I love you, js!
+	});	
+
+	it("persisting in redis, write and read the same", function(done){
+		var repo = new RatingRepository("test");
+		repo.updateRatings("hej", function(){
+			repo.readRatings(function(res){
+				Assert.equal("hej", res);
+				done();
+			});
+		});
 	});	
 });

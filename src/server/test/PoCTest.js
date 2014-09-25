@@ -46,9 +46,9 @@ describe("PoC test", function(){
 
 	it("persisting in redis, write and read the same", function(done){
 		var repo = new RatingRepository("test");
-		repo.updateRatings("hej", function(){
+		repo.updateRatings({teams:["hej"]}, function(){
 			repo.readRatings(function(res){
-				Assert.equal("hej", res);
+				Assert.equal("hej", res.teams[0]);
 				done();
 			});
 		});
@@ -105,6 +105,7 @@ describe("PoC test", function(){
 	});	
 
 	it("Lets stir the points", function(done){	
+		var _elo = new Elo();
 		var repo = new RatingRepository("set1");
 		repo.readRatings(function(ratings){
 			var len = ratings.teams.length;

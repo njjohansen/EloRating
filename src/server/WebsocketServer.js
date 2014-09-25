@@ -16,7 +16,7 @@ var WebsocketServer = function(httpServer){
 	setInterval(function(){
 		_ratingRepo.readRatings(function(ratings){
 			broadcastUpdate(ratings);
-		}
+		});
 	},4000);
 	
 	// contains all the connected client sockets
@@ -53,7 +53,7 @@ var WebsocketServer = function(httpServer){
 
 			_ratingRepo.readRatings(function(ratings){
 				broadcastUpdate(ratings);
-			}
+			});
 		});
 	}
 

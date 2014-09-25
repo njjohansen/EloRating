@@ -7,23 +7,16 @@ function WebsocketService($rootScope){
 		logDebug("Connecting to: {0}".format(connectionUrl));
 		self.webSocket = io.connect(connectionUrl);
 		self.webSocket
-			.on("JOINED", function(player){
-				$rootScope.broadcastEvent('JOINED', player);
-			})			
-			.on("EVENT", function(data){
-				logDebug("Recv data from server: {0}".format(data));
-			});
+			.on("RATINGUPDATE", function(data){
+				$rootScope.broadcastEvent('RATINGUPDATE', data);
+			})	
 		logDebug("Connected to: {0}".format(connectionUrl));
 	};
 
 	//---------- events (invoked on server) -----------
 	// this should be a list of all supported server events
-	this.send = function(data){ // demo only, should be replaced
-		logDebug("Sending data to server: {0}".format(data));
-		self.webSocket.emit("EVENT", data);
-	};
-	
-	this.love = function() {
-		self.webSocket.emit("LOVE");
+
+	self.matchup = function(winner, loser, windex) {
+		self.webSocket.emit("MATCHUP", {'team1':winner,'team2':loser,'winner':windex,'pw':'dlfj%/!F56jtsrelskj5'});
 	};
 }

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="screenModule">
 	<head>
-		<title>EloRating</title>
+		<title>Bodega scoreboard</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
@@ -24,12 +24,11 @@
 		<script type="text/javascript" src="js/IoCModule.js"></script>
 	</head>
 	<body ng-controller="ScreenController">
-		<div id='header'></div>
 		<div id='container'>
-			<div class='team' ng-repeat="team in scoreboard.teams">
-				{{ team.name }}: {{ team.rating }}
+			<div class="team{{ team.winner ? ' winner' : '' }}{{ team.loser ? ' loser' : '' }}" ng-repeat="team in scoreboard track by team.name | orderBy:'rating'" style='top:{{ floor( ( $index + 0.1 ) / 2 ) * 50 }}px;left:{{ $even ? 0 : 50 }}%'>
+				<div class='name'>{{ team.position }}. {{ team.name }}</div>
+				<div class='score'>{{ team.rating }}</div>
 			</div>
 		</div>
-		<div id='footer'></div>
 	</body>
 </html>

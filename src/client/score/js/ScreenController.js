@@ -1,16 +1,18 @@
-function ScreenController($rootScope, $scope, $$screenApplication, $$websocketService){
+function ScreenController($rootScope, $scope, $$screenApplication, $$websocketService, $filter){
 
 	$scope.scoreboard = [];
-
-	$scope.$on("COMMUNICATION_INITIALIZED", function(event, data){
-		// the communication is up, let's send something
-		$$websocketService.send("Hej");
-		//$$websocketService.join();
-	});
-	
-	$scope.$on("RATINGUPDATE", function(event, data) {
-		$scope.scoreboard = data;
+	$scope.floor = Math.floor;
 		
+	$scope.$on("RATINGUPDATE", function(event, data) {
+		teams = $filter('orderBy')(data.teams, 'rating', true);
+		var pos = 0;
+		var score = -1;
+		for (var i = 0; i < teams.length; ++i) {
+			if (teams[i].rating != score) { ++pos; score = teams[i].rating };
+			teams[i].position = pos;
+			teams[i].rating = Math.floor(teams[i].rating);
+		}
+		$scope.scoreboard = teams;
 	});
 
 	$rootScope.broadcastEvent = function(eventname, args){

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="deviceModule">
 	<head>
-		<title>EloRating - controller</title>
+		<title>Bodega - Admin</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		
 		<script type="text/javascript" src="//code.jquery.com/jquery-1.9.1.js"></script>
@@ -12,11 +12,12 @@
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.js"></script>
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-cookies.js"></script>
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular-route.js"></script>
-		<!--<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>-->
-		<!--<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap.js"></script>-->
-		<!--<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.js"></script>-->
-		<meta name="viewport" content="width=640,user-scalable=0,maximum-scale=1.0" />
+		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap.js"></script>
+		<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.11.0/ui-bootstrap-tpls.js"></script>
+		<meta name="viewport" content="width=device-width,user-scalable=0,maximum-scale=1.0" />
 		<link rel="stylesheet" type="text/css" href="css/deviceStyle.css" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<script type="text/javascript" src="../score/js/Common.js"></script>
 		<script type="text/javascript" src="js/WebsocketService.js"></script>
 		<script type="text/javascript" src="js/DeviceApplication.js"></script>
@@ -25,8 +26,11 @@
 		<script type="text/javascript" src="js/IoCModule.js"></script>
 	</head>
 	<body ng-controller="DeviceController">
-		<div class="deviceWrap">
-			Hej Verden!
-		</div>
+		<div style='font-weight:bold'>Vinder:</div>
+		<input type="text" ng-model="winner" typeahead="team for team in teams | filter:$viewValue | limitTo:100" class="form-control">
+		<div style='font-weight:bold'>Taber:</div>
+		<input type="text" ng-model="loser" typeahead="team for team in teams | filter:$viewValue | limitTo:100" class="form-control">
+		<div>&nbsp;</div>
+		<div ng-click="sendResult()" class="btn btn-primary" style='width:100%'>Send resulat</div>
 	</body>
 </html>

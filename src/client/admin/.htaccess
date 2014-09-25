@@ -1,0 +1,5 @@
+
+Authtype Basic
+AuthName "1337"
+AuthUserFile /srv/rating/src/client/admin/.htpasswd
+Require valid-user

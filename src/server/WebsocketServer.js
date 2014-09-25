@@ -92,6 +92,17 @@ var WebsocketServer = function(httpServer){
 
 				// save ratings
 				_ratingRepo.updateRatings(ratings, function(){
+					// mark winner and loser
+					if( winner == 1){
+						team1Obj.winner = true;
+						team2Obj.loser = true;
+					}
+					else if( winner == 2)
+					{
+						team1Obj.loser = true;
+						team2Obj.winner = true;
+					}
+					
 					// inform subscribers
 					callback(ratings);
 				});

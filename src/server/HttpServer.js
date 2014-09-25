@@ -20,6 +20,8 @@ var HttpServer = function(){
 
 	var createServer = function(){
 		var server = http.createServer( function(request, response){
+			response.setHeader('Access-Control-Allow-Origin', '*');
+			
 			var file = new nodeStatic.Server('build/client', {cache: false});
 			request.addListener('connect', function(){
 				response.setHeader('Access-Control-Allow-Origin', '*');

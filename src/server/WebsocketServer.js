@@ -13,35 +13,30 @@ var WebsocketServer = function(httpServer){
 				createTeam("Team 1337"),
 				createTeam("Team tosser"),
 				createTeam("The tokens of fortune"),
-				createTeam("Team Albani"),
+				createTeam("Team Albani"),				
 				createTeam("Team FTW!"),
 				createTeam("Team arabiske nisser"),
 				createTeam("Team pilsner"),
-				createTeam("Team pilsner"),
-				createTeam("Team 1337"),
-				createTeam("Team tosser"),
-				createTeam("The tokens of fortune"),
-				createTeam("Team Albani"),
-				createTeam("Team FTW!"),
-				createTeam("Team arabiske nisser"),
-				createTeam("Team pilsner"),
-				createTeam("Team pilsner"),
-				createTeam("Team 1337"),
-				createTeam("Team tosser"),
-				createTeam("The tokens of fortune"),
-				createTeam("Team Albani"),
-				createTeam("Team FTW!"),
-				createTeam("Team arabiske nisser"),
-				createTeam("Team pilsner"),
-				createTeam("Team pilsner"),
-				createTeam("Team 1337"),
-				createTeam("Team tosser"),
-				createTeam("The tokens of fortune"),
-				createTeam("Team Albani"),
-				createTeam("Team FTW!"),
-				createTeam("Team arabiske nisser"),
-				createTeam("Team pilsner"),
-				createTeam("Team pilsner")
+				createTeam("1Team Albani"),
+				createTeam("1Team FTW!"),
+				createTeam("1Team arabiske nisser"),
+				createTeam("1Team pilsner"),
+				createTeam("2Team Albani"),
+				createTeam("2Team FTW!"),
+				createTeam("2Team arabiske nisser"),
+				createTeam("2Team pilsner"),
+				createTeam("3Team Albani"),
+				createTeam("3Team FTW!"),
+				createTeam("3Team arabiske nisser"),
+				createTeam("3Team pilsner"),
+				createTeam("4Team Albani"),				
+				createTeam("4Team FTW!"),
+				createTeam("4Team arabiske nisser"),
+				createTeam("4Team pilsner"),
+				createTeam("5Team Albani"),
+				createTeam("5Team FTW!"),
+				createTeam("5Team arabiske nisser"),
+				createTeam("5Team pilsner")
 			]
 		};
 
@@ -73,8 +68,11 @@ var WebsocketServer = function(httpServer){
 				clientSocket.emit("EVENT", inputObj);	
 			});
 
-			clientSocket.on("MATCHUP", function(inputObj) {
-				broadcastUpdate();				
+			clientSocket.on("MATCHUP", function(input) {
+				registerMatchUp(input.team1, input.team2, input.winner, function(){
+					broadcastUpdate();					
+				});				
+
 			});						
 			
 			clientSocket.on('disconnect', function(){
@@ -85,24 +83,48 @@ var WebsocketServer = function(httpServer){
 		});
 	}
 
-	var registerMatchUp = function(team1, team2, winner){
+	var registerMatchUp = function(team1, team2, winner, callback){
 		try{
 			// load ratings
 			_ratingRepo.readRatings(function(ratings){
 				if( typeof ratings == "undefined" || ratings == null)
 					ratings = []; // initialize ratings
+								
+				// fetch team or create if new
+				var team1Obj, team2Obj;
+				// fetch team1
+				var i = ratings.indexOfProperty("name", team1);
+				if( i < 0){
+					team1Obj = createTeam(team1);
+					ratings.push(team1Obj);
+				}
+				else
+					team1Obj = ratings[i];
+				
+				// fetch team2
+				i = ratings.indexOfProperty("name", team2);
+				if( i < 0){
+					team2Obj = createTeam(team2);
+					ratings.push(team2Obj);
+				}
+				else
+					team2Obj = ratings[i];
+
+				// apply points
 
 
+				// save ratings
+				_ratingRepo.updateRatings(ratings,function(){
+					// inform subscribers
+					callback();
+				});
 			});
-			// create teams if new
-			// apply points
-			// save ratings
-			// broadcast ratings
+			
 		}
 		catch(ex){
 			//suppress
 		}
-		broadcastUpdate();
+		
 	};
 
 	var createTeam = function(name) {
@@ -119,4 +141,4 @@ var WebsocketServer = function(httpServer){
 
 module.exports = WebsocketServer;
 
-//{team1: "team1name", team2: "team2name", winner: }
+//{team1: "team1name", team2: "team2name", winner: <0,1,2>}

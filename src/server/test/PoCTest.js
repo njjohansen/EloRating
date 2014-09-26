@@ -106,7 +106,7 @@ describe("PoC test", function(){
 
 	it("Lets stir the points", function(done){	
 		var _elo = new Elo();
-		var repo = new RatingRepository("set1");
+		var repo = new RatingRepository("set2");
 		repo.readRatings(function(ratings){
 			var len = ratings.teams.length;
 

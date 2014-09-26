@@ -6,7 +6,7 @@ var Elo = require('./Elo');
 var WebsocketServer = function(httpServer){
 	var self = this;
 	self.webSocket = null;
-	var _ratingRepo = new RatingRepository("set1");
+	var _ratingRepo = new RatingRepository("set2");
 	var _elo = new Elo();
 
 	var broadcastUpdate = function(state) {		

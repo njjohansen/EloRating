@@ -8,11 +8,12 @@ function ScreenController($rootScope, $scope, $$screenApplication, $$websocketSe
 		var pos = 0;
 		var score = -1;
 		for (var i = 0; i < teams.length; ++i) {
-			if (teams[i].rating != score) { ++pos; score = teams[i].rating };
+			if (teams[i].rating != score) { ++pos; score = teams[i].rating; };
+			teams[i].index = i;
 			teams[i].position = pos;
 			teams[i].rating = Math.floor(teams[i].rating);
 		}
-		$scope.scoreboard = teams;
+		$scope.scoreboard = $filter('orderBy')(data.teams, 'name');
 	});
 
 	$rootScope.broadcastEvent = function(eventname, args){

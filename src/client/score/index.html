@@ -25,7 +25,7 @@
 	</head>
 	<body ng-controller="ScreenController">
 		<div id='container'>
-			<div class="team{{ team.winner ? ' winner' : '' }}{{ team.loser ? ' loser' : '' }}" ng-repeat="team in scoreboard track by team.name | orderBy:'rating'" style='top:{{ floor( ( $index + 0.1 ) / 2 ) * 50 }}px;left:{{ $even ? 0 : 50 }}%'>
+			<div class="team{{ team.winner ? ' winner' : '' }}{{ team.loser ? ' loser' : '' }}" ng-repeat="team in scoreboard track by team.name" style='top:{{ floor( ( team.index + 0.1 ) / 2 ) * 50 }}px;left:{{ team.index % 2 == 0 ? 0 : 50 }}%'>
 				<div class='name'>{{ team.position }}. {{ team.name }}</div>
 				<div class='score'>{{ team.rating }}</div>
 			</div>
